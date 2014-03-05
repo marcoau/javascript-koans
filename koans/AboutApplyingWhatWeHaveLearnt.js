@@ -106,26 +106,121 @@ describe("About Applying What We Have Learnt", function() {
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+
+  //This solution needs Underscore.js to run properly.
   it("should find the largest prime factor of a composite number", function () {
+    
+    var primeFactor = function(num){
+
+      var answer = 0;
+      var primeList = [2];
+      
+      for(var i = 3; i * i <= num; i += 2){
+
+        if( _(primeList).all( function(j) {return i % j !== 0;} ) ){
+          primeList.push(i);
+
+          if(num % i === 0){
+            answer = i;
+          }
+        }
+      }
+      
+      return answer;
+    };
   
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+
+    var isPalindrome = function(num) {
+      var numString = String(num);
+      return numString === numString.split("").reverse().join("");
+    };
+
+    var largestPalindrome = function() {
+      var palindromeList = [];
+      for (var i = 999; i > 100; i--){
+        for (var j = 999; j >= i; j--){
+          if (isPalindrome(i * j)){
+            palindromeList.push(i * j);
+          }
+        }
+      }
+      return Math.max.apply(Math, palindromeList);
+
+    };
+
+    largestPalindrome();
     
   });
 
+   //This solution needs Underscore.js to run properly.
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
-    
+
+    var multiple = function(arr){
+      return arr.reduce(function(i, init){return i * init},1);
+    }
+
+    var primeBelowMultiple = function(num){
+      primeList = [2];
+      for (var i = 3; i < num; i++){
+        if( _(primeList).all( function(j) {return i % j !== 0;} ) ){
+          primeList.push(i);
+        }
+      }
+      return multiple(primeList);
+    };
+
+    var smallestDivisible = function(num){
+      var multiplier = primeBelowMultiple(num);
+      var max = multiple(_.range(1,num+1));
+      for (var i = 1; multiplier * i < max; i++){
+        if (_(_.range(1,num+1)).all(function(j){return (multiplier * i) % j === 0;})){
+          return multiplier * i;
+        }
+      }
+      return "fail";
+    };
+
+    smallestDivisible(20);
+
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
+    var sumSquare = function(arr){
+      return arr.map(function(i){return i * i;}).reduce(function(i, init){return i + init;});
+    };
+
+    var squareSum = function(arr){
+      var sum = arr.reduce(function(i, init){return i + init;});
+      return sum * sum;
+    };
+
+    var sumDifference = function(arr){
+      return squareSum(arr) - sumSquare(arr);
+    };
     
   });
 
+  //Use counter as it is faster than primeList.length.
   it("should find the 10001st prime", function () {
+    var primeNumber = function(num){
+      primeList = [2];
+      var counter = 1;
+      for (var i = 3; counter < num; i++){
+        if( _(primeList).all( function(j) {return i % j !== 0;} ) ){
+          primeList.push(i);
+          counter++;
+        }
+        if(counter === num){
+          return i;
+        }
+      }
+    };
+
+    primeNumber(10001);
 
   });
-  */
+  
 });
